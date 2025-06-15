@@ -32,12 +32,62 @@ class BookController extends Controller
         ],200);
     }
 
+
+     public function show(int $id)
+    {
+        // Find the book by ID
+        $book = collect($this->books)->firstWhere('id', $id);
+
+        if (!$book) {
+            return response()->json([
+                "message" => "Book not found",
+            ], 404);
+        }
+
+        return response()->json([
+            "message" => "Book fetched successfully",
+            "data" => $book
+        ], 200);
+    }
+
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return response()->json([
+            "message" => "Show form for creating a new book",
+            "data" => $this->books
+        ], 201);
+    }
+
+     public function update(Request $request, int $id)
+    {
+        return response()->json([
+            "message" => "Book with ID $id updated successfully",
+            "data" => [
+                "id" => $id,
+                "title" => $request->title,
+                "authorId" => $request->authorId,
+                "isbn" => $request->isbn,
+                "publicationYear" => $request->publicationYear,
+                "genre" => $request->genre,
+                "availableCopies" => $request->availableCopies,
+                "books"=> $this->books  
+            ]
+        ], 200);
+        
+        
+    }
+
+
+     public function delete(int $id)
+    {
+        return response()->json([
+            "message" => "Book with ID $id deleted successfully",
+            "data" => $this->books
+        ], 200);
     }
 
     /**
@@ -51,11 +101,7 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
-
+   
     /**
      * Show the form for editing the specified resource.
      */
@@ -67,16 +113,13 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    // public function update(Request $request, string $id)
+    // {
+    //     //
+    // }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+   
 }
