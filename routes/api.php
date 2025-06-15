@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
+use PharIo\Manifest\Author;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +24,14 @@ Route::prefix('books')->group(function () {
     Route::post('/create/{id}', [BookController::class, 'create']); 
     Route::put('/update/{id}', [BookController::class, 'update']);
     Route::delete('delete/{id}', [BookController::class, 'delete']);
+});
+
+Route::prefix('authors')->group(function () {
+    Route::get('/', [AuthorController::class, 'index']);
+    Route::get('/{id}', [AuthorController::class, 'show']);
+    Route::post('/', [AuthorController::class, 'create']);
+    Route::put('/update/{id}', [AuthorController::class, 'update']);
+    Route::delete('delete/{id}', [AuthorController::class, 'delete']);
 });
 
 
