@@ -1,11 +1,12 @@
 <?php
 
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use PharIo\Manifest\Author;
-
+// use PharIo\Manifest\Author; // Remove this line if not needed, as it may cause conflicts
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,6 +33,14 @@ Route::prefix('authors')->group(function () {
     Route::post('/', [AuthorController::class, 'create']);
     Route::put('/update/{id}', [AuthorController::class, 'update']);
     Route::delete('delete/{id}', [AuthorController::class, 'delete']);
+});
+
+Route::prefix('users')->group(function () {
+    Route::get('/', [UserController::class, 'index']);
+    Route::get('/{id}', [UserController::class, 'show']);
+    Route::post('/', [UserController::class, 'create']);
+    Route::put('/update/{id}', [UserController::class, 'update']);
+    Route::delete('delete/{id}', [UserController::class, 'delete']);
 });
 
 
