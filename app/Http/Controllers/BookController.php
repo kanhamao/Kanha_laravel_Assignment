@@ -36,17 +36,10 @@ class BookController extends Controller
      public function show(int $id)
     {
         // Find the book by ID
-        $book = collect($this->books)->firstWhere('id', $id);
-
-        if (!$book) {
-            return response()->json([
-                "message" => "Book not found",
-            ], 404);
-        }
 
         return response()->json([
             "message" => "Book fetched successfully",
-            "data" => $book
+            "data" =>$this->books[$id - 1] ?? null
         ], 200);
     }
 
