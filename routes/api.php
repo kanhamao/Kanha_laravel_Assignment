@@ -29,7 +29,7 @@ Route::prefix('books')->group(function () {
 Route::prefix('authors')->group(function () {
     Route::get('/', [AuthorController::class, 'index']);
     Route::get('/{id}', [AuthorController::class, 'show']);
-    Route::post('/', [AuthorController::class, 'create']);
+    Route::post('/create', [AuthorController::class, 'create']);
     Route::put('/update/{id}', [AuthorController::class, 'update']);
     Route::delete('delete/{id}', [AuthorController::class, 'delete']);
 });

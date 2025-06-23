@@ -1,122 +1,68 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Requests\StoreauthorRequest;
 use Illuminate\Http\Request;
+use App\Models\Author;
 
 class AuthorController extends Controller
 {
-
-
-    public $authors = [
-        ['id' => 1, 'name' => 'Kanha Mao'],
-        ['id' => 2, 'name' => 'Kosol Mao'],
-        ['id' => 3, 'name' => 'Veasna Mao'],
-    ];
-    /**
-     * Display a listing of the resource.
-     */
+    // Get all authors
     public function index()
     {
-        return response()->json(
-            [
-                'status' => 'success',
-                'data' => [
-                    
-                    'authors' => $this->authors
-                ]
-            ],200);
+        $authors = Author::all();
+        return response()->json([
+            'message' => 'authors fetched successfully',
+            'data' => $authors
+        ], 200);
     }
 
+    // Create a new author
 
-    public function show(Request $request,int $id)
+    public function create(StoreauthorRequest $request)
     {
-        return response()->json(
-            [
-                'status' => 'success',
-                'data' => [
-                        "id" =>$request->$id,
-                        "name" => $request->name,
-                        "bio"=>$request-> bio,
-                        "nationality" => $request->nationality,
-                        "authors" => $this->authors
-
-                ]
-            ], 200);
+        $author = Author::create($request->all());
+        return response()->json([
+            "message" => "Success",
+            "data" => $author
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request)
+
+    // Show a single author by ID
+    public function show($id)
     {
-        return response()->json(
-            [
-                'status' => 'success',
-                'message' => 'Show form for creating a new author',
-                'data' =>[
-                    "name" => $request->name,
-                    "bio" => $request->bio,
-                    "nationality" => $request->nationality,
-                    "authors"=>$this->authors]
-            ], 201);
+        $author = Author::find($id);
+        return response()->json([
+            'success' => true,
+            'message' => 'author fetched successfully',
+            'data' => $author
+        ], 200);
     }
 
-    public function update(Request $request, string $id)
+
+    // Update a author using StoreauthorRequest
+    public function update(StoreauthorRequest $request, $id)
     {
-        return response()->json(
-            [
-                'status' => 'success',
-                'message' => "Author with ID $id updated successfully",
-                'data' => [
-                    "id" => $id,
-                    "name" => $request->name,
-                    "bio" => $request->bio,
-                    "authors" => $this->authors,
-                ]
-                ],200);       
+        $author = Author::find($id);
+        $author->update($request->validated());
+        return response()->json([
+            'success' => true,
+            'message' => 'author updated successfully',
+            'data' => $author
+        ], 200);
     }
 
-    public function delete(int $id)
+    // Delete a author
+     public function delete(StoreauthorRequest $request, $id)
     {
-        return response()->json(
-            [
-                'status' => 'success',
-                'message' => "Author with ID $id deleted successfully",
-                'data' => [
-                    "authors" => $this->authors
-                ]
-            ], 200);
+        $author = Author::find($id);
+        $author->delete($request->validated());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'author delete successfully',
+            'data' => $author
+        ], 200);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    
 }
