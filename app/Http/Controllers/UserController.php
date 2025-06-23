@@ -1,124 +1,73 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Controllers\Controller;
 
+use App\Http\Requests\StoreUserRequest;
 use Illuminate\Http\Request;
+
+
+use App\Models\User;
 
 class UserController extends Controller
 {
-    public $users = [
-        ['id' => 1, 'name' => 'John Doe','email' => 'john@gmail.com'],
-        ['id' => 2, 'name' => 'Jane Smith','email' => 'jane@gmail.com'],
-        ['id' => 3, 'name' => 'Alice Johnson','email' => 'Alice@gmail.com']
-    ];
-    /**
-     * Display a listing of the resource.
-     */
+    // Get all Users
     public function index()
     {
-        return response()->json(
-            [
-                'status' => 'success',
-                'data' => [
-                    'users' => $this->users
-                ]
-            ], 200);
+        $users = User::all();
+        return response()->json([
+            'message' => 'Users fetched successfully',
+            'data' => $users
+        ], 200);
     }
 
-     public function show(Request $request, int $id)
+    // Create a new User
+
+  // Store a new User
+public function create(StoreUserRequest $request)
+{
+    $user = User::create($request->all());
+
+    return response()->json([
+        "message" => "User created successfully",
+        "data" => $user
+    ]);
+}
+
+
+    // Show a single User by ID
+    public function show($id)
     {
-        return response()->json(
-            [
-                'status' => 'success',
-                'data' => [
-                    "id" => $request->id,
-                    "name" => $request->name,
-                    "email" => $request->email,
-                    "users" => $this->users
-                ]
-            ], 200);
-
-        
+        $user = User::find($id);
+        return response()->json([
+            'success' => true,
+            'message' => 'User fetched successfully',
+            'data' => $user
+        ], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request)
+
+    // Update a User using StoreUserRequest
+    public function update(StoreUserRequest $request, $id)
     {
-        return response()->json(
-            [
-                'status' => 'success',
-                'message' => 'User created successfully',
-                "data" => [
-                    "id" =>$request->id,
-                    "name" => $request->name,
-                    "email" => $request->email,
-                    "membershipDate" => $request->membershipDate, 
-                    "users" => $this->users
-                ]      
-            ], 201);
+        $user = User::find($id);
+        $user->update($request->validated());
+        return response()->json([
+            'success' => true,
+            'message' => 'User updated successfully',
+            'data' => $user
+        ], 200);
     }
 
-   public function update(Request $request, int $id)
+    // Delete a User
+     public function delete(StoreUserRequest $request, $id)
     {
-        return response()->json(
-            [
-                'status' => 'success',
-                'message' => 'User updated successfully',
-                "data" => [
-                    "id" => $request->id,
-                    "name" => $request->name,
-                    "email" => $request->email,
-                    "membershipDate" => $request->membershipDate, 
-                    "users" => $this->users
-                ]      
-            ], 200);
-        
+        $user = User::find($id);
+        $user->delete($request->validated());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User delete successfully',
+            'data' => $user
+        ], 200);
     }
-     public function delete(int $id)
-    {
-        return response()->json(
-            [
-                'status' => 'success',
-                'message' => 'User deleted successfully',
-                "data" => [
-                    "id" => $id,
-                    "users" => $this->users
-                ]      
-            ], 200);
-    }
-
-
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-   
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    
-    /**
-     * Remove the specified resource from storage.
-     */
-   
 }
