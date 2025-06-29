@@ -14,14 +14,12 @@ class AuthorFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+public function definition(): array
     {
         return [
             'name' => $this->faker->name(),
             'bio' => $this->faker->paragraph(),
-            'nationality' => $this->faker->country(2),
-            'created_at' => now(),
-            'updated_at' => now(),
+            'nationality' => $this->faker->country(),
         ];
     }
 }

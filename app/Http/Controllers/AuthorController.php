@@ -1,22 +1,34 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\StoreauthorRequest;
 use Illuminate\Http\Request;
 use App\Models\Author;
 
 class AuthorController extends Controller
 {
-    // Get all authors
+
     public function index()
     {
-        $authors = Author::all();
+        $authors = Author::with('books')->get();
+
         return response()->json([
-            'message' => 'authors fetched successfully',
-            'data' => $authors
+            'message' => 'Authors retrieved successfully',
+            'data' => $authors,
         ], 200);
     }
 
+
+    public function show($id)
+    {
+        $author = Author::with('books')->find($id);
+
+        return response()->json([
+            'message' => 'Author retrieved successfully',
+            'data' => $author,
+        ], 200);
+    }
     // Create a new author
 
     public function create(StoreauthorRequest $request)
@@ -27,20 +39,6 @@ class AuthorController extends Controller
             "data" => $author
         ]);
     }
-
-
-    // Show a single author by ID
-    public function show($id)
-    {
-        $author = Author::find($id);
-        return response()->json([
-            'success' => true,
-            'message' => 'author fetched successfully',
-            'data' => $author
-        ], 200);
-    }
-
-
     // Update a author using StoreauthorRequest
     public function update(StoreauthorRequest $request, $id)
     {
@@ -54,7 +52,7 @@ class AuthorController extends Controller
     }
 
     // Delete a author
-     public function delete(StoreauthorRequest $request, $id)
+    public function delete(StoreauthorRequest $request, $id)
     {
         $author = Author::find($id);
         $author->delete($request->validated());

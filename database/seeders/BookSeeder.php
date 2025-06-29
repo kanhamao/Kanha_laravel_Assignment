@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Author;
+use App\Models\Book;
 
 class BookSeeder extends Seeder
 {
@@ -12,16 +14,14 @@ class BookSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Book::factory(50)->create();
         
-        // You can also create specific books if needed
-        // \App\Models\Book::create([
-        //     'title' => 'Sample Book',
-        //     'author' => 'John Doe',
-        //     'published_year' => 2020,
-        //     'genre' => 'Fiction',
-        //     'isbn' => '1234567890123',
-        //     'summary' => 'This is a sample book summary.',
-        // ]);
-    }
+            Author::all()->each(function ($author) {
+            Book::factory()->count(3)->create([
+                'author_id' => $author->id,
+            ]);
+        });
 }
+
+}
+    
+

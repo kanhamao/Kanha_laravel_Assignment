@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Author;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,13 +15,13 @@ class BookFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
-    {
-        return [
-            "title" => $this->faker->sentence(3),
-            "body" => $this->faker->name(),
-            
-            
-        ];
-    }
+
+public function definition(): array
+{
+    return [
+        'title' => $this->faker->sentence(3),
+        'body' => $this->faker->paragraph(),
+        'author_id' => Author::factory(), // ⬅ this is the correct and clean way
+    ];
+}
 }

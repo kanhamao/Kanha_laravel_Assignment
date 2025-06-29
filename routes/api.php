@@ -24,6 +24,7 @@ Route::prefix('books')->group(function () {
     Route::post('/create', [BookController::class, 'create']);
     Route::put('/update/{id}', [BookController::class, 'update']);
     Route::delete('/delete/{id}', [BookController::class, 'delete']);
+    
 });
 
 Route::prefix('authors')->group(function () {
